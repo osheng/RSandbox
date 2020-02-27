@@ -3,4 +3,4 @@
 # except...
 !.gitignore
 !README.md
-*.R
+!*.R
