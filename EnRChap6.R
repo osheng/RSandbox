@@ -1,6 +1,15 @@
 # Problems from Evans and Rosenthal Chapter 6
 
 # Question 6.3.19
+# Suppose a measurement on a population can be assumed to follow the N(μ,σ^2) distribution, 
+# (μ,σ^2) ∈ R×(0,∞) is unknown and the size of the populationis very large. 
+# A very conservative upper bound on σ is given by 5.
+# A researcher wants to determine a 0.95-confidence interval for μ that is no longer than 1.
+# Determine asample size that will guarantee this. (Hint: Start with a large sample approximation.)
+# 
+# TODO: 
+# This solution runs a linear search for n. Write up a sort of binary search.
+# Plot the runtime of the two solutions with respect (1) s and (2) g. 
 # Since mu and sigma are unknown, we compute the length with the t-distribution.
 question6_3_19=function(s,g){
   # compute the length of a gamma confidence interval for n samples 
@@ -14,6 +23,12 @@ question6_3_19(5,0.95)
 
 
 # Question 6.3.21: This question require package Rlab for rbern.
+# Generate 10^3 samples of size n=5 from the Bernoulli(0.5) distribution.  
+# Foreach of these samples, calculate (6.3.5) with γ=0.95 and record the proportion of intervals 
+# that contain the true value. What do you notice? Repeat this simulation with n=20.
+# What do you notice?
+
+# Compute the confidence intervale for a bernoulli
 compute_bernCI=function(sample_data,g){
   mu = mean(sample_data)
   fisher_info=length(sample_data)*(1/(mu*(1-mu)))
@@ -22,8 +37,11 @@ compute_bernCI=function(sample_data,g){
 }
  
 question6_3_21=function(num_samples, sample_size, bparam, g){
-  
-  replicate(num_samples, rbern(sample_size,bparam))
-  
+  intervals = replicate(num_samples, compute_bernCI(rbern(sample_size, bparam), g))
+  num_hits = ncol(intervals[,intervals[1,]<=bparam & intervals[2,]>=bparam])
+  return(num_hits/num_samples)
 }
-question6_3_21(10^3, 5, 0.5, 0.95)
+question6_3_21(10^5, 5, 0.5, 0.95)
+question6_3_21(10^5, 10, 0.5, 0.95)
+question6_3_21(10^5, 20, 0.5, 0.95)
+question6_3_21(10^5, 50, 0.5, 0.95)
