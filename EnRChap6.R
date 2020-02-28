@@ -2,7 +2,7 @@
 
 # Question 6.3.19
 # Suppose a measurement on a population can be assumed to follow the N(μ,σ^2) distribution, 
-# (μ,σ^2) ∈ R×(0,∞) is unknown and the size of the populationis very large. 
+# (μ,σ^2) ∈ R×(0,∞) is unknown and the size of the population is very large. 
 # A very conservative upper bound on σ is given by 5.
 # A researcher wants to determine a 0.95-confidence interval for μ that is no longer than 1.
 # Determine asample size that will guarantee this. (Hint: Start with a large sample approximation.)
@@ -39,9 +39,9 @@ compute_bernCI=function(sample_data,g){
 question6_3_21=function(num_samples, sample_size, bparam, g){
   intervals = replicate(num_samples, compute_bernCI(rbern(sample_size, bparam), g))
   num_hits = ncol(intervals[,intervals[1,]<=bparam & intervals[2,]>=bparam])
-  return(num_hits/num_samples)
+  sprintf("%s%% of the confidence intervals contained the true parameter", num_hits/num_samples)
 }
-question6_3_21(10^5, 5, 0.5, 0.95)
-question6_3_21(10^5, 10, 0.5, 0.95)
-question6_3_21(10^5, 20, 0.5, 0.95)
-question6_3_21(10^5, 50, 0.5, 0.95)
+question6_3_21(10^3, 5, 0.5, 0.95)
+question6_3_21(10^3, 10, 0.5, 0.95)
+question6_3_21(10^3, 20, 0.5, 0.95)
+question6_3_21(10^3, 50, 0.5, 0.95)
