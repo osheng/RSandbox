@@ -42,8 +42,8 @@ compute_bernCI = function(sample_data, g) {
 
 question6_3_21 = function(num_samples, sample_size, bparam, g) {
   intervals = replicate(num_samples, compute_bernCI(rbern(sample_size, bparam), g))
-  num_hits = ncol(intervals[, intervals[1, ] <= bparam &
-                              intervals[2, ] >= bparam])
+  num_hits = ncol(intervals[, intervals[1,] <= bparam &
+                              intervals[2,] >= bparam])
   sprintf("%s%% of the confidence intervals contained the true parameter",
           num_hits / num_samples)
 }
@@ -53,14 +53,25 @@ question6_3_21(10 ^ 3, 20, 0.5, 0.95)
 question6_3_21(10 ^ 3, 50, 0.5, 0.95)
 
 # Question 6.3.22
-# Generate 10^4samples of size n=5 from the N(0,1) distribution.
+# Generate 10^4 samples of size n=5 from the N(0,1) distribution.
 # For each ofthese samples, calculate the interval ( ̄x−s/√5, ̄x+s/√5),
 # where s is the sample standard deviation, and compute the proportion of times this interval contains μ.
 # Repeat this simulation with n=10 and 100 and compare your results.
-compute_zI = function(sample_data, sample_size) {
+compute_zI = function(sample_data) {
   mu = mean(sample_data)
   n = length(sample_data)
   s = (sum(sample_data ^ 2) - n * mu ^ 2) / (n - 1)
-  width = s / sqrt(sample_size)
+  width = s / sqrt(n)
   return(c(mu - width, mu + width))
 }
+
+question6_3_22 = function(num_samples, sample_size, mu) {
+  intervals = replicate(num_samples, compute_zI(rnorm(sample_size, mu , 1)))
+  num_hits = ncol(intervals[, intervals[1,] <= mu &
+                              intervals[2,] >= mu])
+  sprintf("%s%% of the  intervals contained the true parameter",
+          num_hits / num_samples)
+}
+question6_3_22(10 ^ 4, 5, 0)
+question6_3_22(10 ^ 4, 10, 0)
+question6_3_22(10 ^ 4, 100, 0)
