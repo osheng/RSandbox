@@ -41,7 +41,7 @@ LSAplot = function(x,
   plot(x, y)
   for (j in seq(1, n)) {
     if (all | j == n)
-      lines(px, poly(x, y, j), col = col[j %% length(colors)])
+      lines(px, poly(x, y, j), col = col[1 + (j %% length(col))])
   }
 }
 
