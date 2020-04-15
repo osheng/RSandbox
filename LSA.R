@@ -30,7 +30,8 @@ poly=function(x,y,n){
 # TODO: add a legend for the colours
 # TODO: display the polymial expressions
 # TODO: figure out how to do this in ggplot
-LSAplot=function(x,y,n=1,col=c("red","green","blue"),all=FALSE){
+colors = c("red","green","blue")
+LSAplot=function(x,y,n=1,col=colors, all=FALSE){
   # Plots the least squares polynomial degree n approximation
   px = seq(min(x),max(x),0.1)
   # py = integer(length(px))
@@ -41,6 +42,6 @@ LSAplot=function(x,y,n=1,col=c("red","green","blue"),all=FALSE){
   plot(x,y)
   for (j in seq(1,n)){
     if (all | j == n)
-    lines(px,poly(x,y,j),col=col[j])
+    lines(px,poly(x,y,j),col= if(j<=length(colors)) col[j] else "mediumorchid1")
   }
 }
