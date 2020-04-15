@@ -1,3 +1,6 @@
+# This module implements Least Squared Approximation as explained in
+# Friedberg, Insel, and Spence's Linear Algebra, section 6.3
+
 LSA=function(x,y,n=1){
   # Returns a vector of coefficients for least squared polynomial approximation
   # Note the first value is the y-intercept, the last is the x^n coefficient
