@@ -16,9 +16,12 @@ LSA = function(x, y, n = 1) {
   return(c(solve(t(A) %*% A) %*% t(A) %*% y))
 }
 
-poly = function(x, y, n) {
-  # Returns vector of y-values
-  px = seq(min(x), max(x), 0.1)
+poly = function(x, y, n = 1, expand = FALSE) {
+  # Returns vector of predicted y-values given data x, y
+  px = if (expand)
+    seq(min(x), max(x), 0.1)
+  else
+    x
   py = integer(length(px))
   c = LSA(x, y, n)
   for (i in seq(0, n)) {
@@ -41,7 +44,7 @@ LSAplot = function(x,
   plot(x, y)
   for (j in seq(1, n)) {
     if (all | j == n)
-      lines(px, poly(x, y, j), col = col[1 + (j %% length(col))])
+      lines(px, poly(x, y, j, expand = TRUE), col = col[1 + (j %% length(col))])
   }
 }
 
@@ -49,3 +52,9 @@ LSAplot = function(x,
 # If I have the data x=c(1,2) and y=c(1,2), then any human could tell me that the degree n polynomial of "best fit"
 # is y=x for all n>=1. But the method won't be able to figure that out because it will require solving a singular matrix.
 # Is there a better way to compute the best fit polynomial of degree n?
+
+error = function(x, y, n = 1) {
+  # Return the squared error of the model
+  # TODO: figure out why this doesn't give zero when x=seq(1,10), y=seq(1,10) without rounding
+  return(sum(((round(y - poly(x, y, n), 6)) ^ 2)))
+}
