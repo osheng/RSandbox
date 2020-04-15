@@ -30,18 +30,18 @@ poly=function(x,y,n){
 # TODO: add a legend for the colours
 # TODO: display the polymial expressions
 # TODO: figure out how to do this in ggplot
-colors = c("red","green","blue")
+colors = c("red","green","blue","mediumorchid1")
 LSAplot=function(x,y,n=1,col=colors, all=FALSE){
   # Plots the least squares polynomial degree n approximation
   px = seq(min(x),max(x),0.1)
-  # py = integer(length(px))
-  # c = LSA(x,y,n)
-  # for (i in seq(0,n)){
-  #   py = py + c[n + 1 - i] * px^(i)
-  # }
   plot(x,y)
   for (j in seq(1,n)){
     if (all | j == n)
-    lines(px,poly(x,y,j),col= if(j<=length(colors)) col[j] else "mediumorchid1")
+    lines(px,poly(x,y,j),col=col[j %% length(colors)])
   }
 }
+
+# TODO: I have a theoretical problem
+# If I have the data x=c(1,2) and y=c(1,2), then any human could tell me that the degree n polynomial of "best fit"
+# is y=x for all n>=1. But the method won't be able to figure that out because it will require solving a singular matrix.
+# Is there a better way to compute the best fit polynomial of degree n?
